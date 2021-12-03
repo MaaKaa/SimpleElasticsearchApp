@@ -48,13 +48,23 @@ public class UserService {
      * Method adds some test data do Elasticsearch.
      */
     public void loadTestData() {
-        Address correspondence = Address.builder()
+        Address correspondence1 = Address.builder()
                 .addressType(AddressType.CORRESPONDENCE.name())
                 .street("Marszałkowska")
                 .buildingNumber("1")
                 .flatNumber("1")
                 .city("Warszawa")
                 .postalCode("00-001")
+                .postOffice("Warszwa")
+                .country("Polska")
+                .build();
+        Address correspondence2 = Address.builder()
+                .addressType(AddressType.CORRESPONDENCE.name())
+                .street("Marszałkiniowa")
+                .buildingNumber("10")
+                .flatNumber("11")
+                .city("Warszawa")
+                .postalCode("00-002")
                 .postOffice("Warszwa")
                 .country("Polska")
                 .build();
@@ -68,17 +78,24 @@ public class UserService {
                 .postOffice("Gózd")
                 .country("Polska")
                 .build();
+
         User activeUser1 = User.builder()
                 .name("Jan")
                 .surname("Kowalski")
                 .status("1")
-                .addresses(List.of(correspondence))
+                .addresses(List.of(correspondence1))
                 .build();
         User activeUser2 = User.builder()
                 .name("Grażyna")
                 .surname("Kowalska")
                 .status("1")
                 .addresses(List.of(headquarters))
+                .build();
+        User activeUser3 = User.builder()
+                .name("Bożena Anna")
+                .surname("Barszcz Żółkiewska")
+                .status("1")
+                .addresses(List.of(correspondence2))
                 .build();
         User inactiveUser1 = User.builder()
                 .name("Janusz")
@@ -87,7 +104,7 @@ public class UserService {
                 .addresses(null)
                 .build();
 
-        userRepository.saveAll(List.of(activeUser1, inactiveUser1, activeUser2));
+        userRepository.saveAll(List.of(activeUser1, inactiveUser1, activeUser2, activeUser3));
     }
 
     public void deleteTestData() {

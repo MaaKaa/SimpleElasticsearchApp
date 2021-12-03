@@ -91,19 +91,42 @@ Using Postman:
     - Content-type: application/json,
 - Set body, e.g:
 
+This is a correct request to find Jan Kowalski:
 ````
-{
-    "name": "Jan",
-    "surname": "Kowalski",
-    "address":
-      {
-        "street": "Mickiewicza",
-        "buildingNumber": "9",
-        "flatNumber": "5",
-        "city": "Warszawa",
-        "postalCode": "00-100",
-        "postOffice": "Warszawa",
-        "country": "POLSKA"
-      }
-}
+curl -XPOST -H "Content-type: application/json" -d '{"name": "Jan","surname": "Kowalski","correspondenceAddresses":{ "street":"Marszałkowska","buildingNumber":"1","flatNumber":"1","city":"Warszawa","postalCode":"00-001","postOffice":"Warszwa","country":"Polska"}
+}' 'http://localhost:8080/api/search'
+````
+
+This will not work, because it searches for headquartes address (while Jan has only correspondence):
+````
+curl -XPOST -H "Content-type: application/json" -d '{"name": "Jan","surname": "Kowalski","headquartersAddresses":{ "street":"Marszałkowska","buildingNumber":"1","flatNumber":"1","city":"Warszawa","postalCode":"00-001","postOffice":"Warszwa","country":"Polska"}
+}' 'http://localhost:8080/api/search'
+````
+
+This is a correct request to find Grażyna Kowalska:
+````
+curl -XPOST -H "Content-type: application/json" -d '{"name": "Grażyna","surname": "Kowalska","headquartersAddresses":{ "street":"Karolkowa","buildingNumber":"20","flatNumber":"44","city":"Warszawa","postalCode":"00-202","postOffice":"Gózd","country":"Polska"}
+}' 'http://localhost:8080/api/search'
+````
+
+This way you can also find Grażyna, even if you use latin "z" instead of Polish character "ż" (thanks to ascii analyzer):
+````
+curl -XPOST -H "Content-type: application/json" -d '{"name": "Grazyna","surname": "Kowalska","headquartersAddresses":{ "street":"Karolkowa","buildingNumber":"20","flatNumber":"44","city":"Warszawa","postalCode":"00-202","postOffice":"Gózd","country":"Polska"}
+}' 'http://localhost:8080/api/search'
+````
+
+This way you won't find Grażyna - there is a typo in her name:
+````
+curl -XPOST -H "Content-type: application/json" -d '{"name": "Grasyna","surname": "Kowalska","headquartersAddresses":{ "street":"Karolkowa","buildingNumber":"20","flatNumber":"44","city":"Warszawa","postalCode":"00-202","postOffice":"Gózd","country":"Polska"}
+}' 'http://localhost:8080/api/search'
+````
+
+This way you will not find Janusz Nowak, because it is an inactive user (thus, will not pass the query filter):
+````
+curl -XPOST -H "Content-type: application/json" -d '{"name":"Janusz", "surname": "Nowak"}' 'http://localhost:8080/api/search'
+````
+This will return both Jan Kowalski and Bożena Barszcz - there is a full-text search, so search param "Marszałk" will find both "Marszałkowska" and "Marszałkini" street:
+````
+curl -XPOST -H "Content-type: application/json" -d '{"correspondenceAddresses":{ "street":"Marszałk","city":"Warszawa","postOffice":"Warszwa","country":"Polska"}
+}' 'http://localhost:8080/api/search'
 ````
