@@ -1,12 +1,22 @@
 # Simple Elasticsearch App
+It a asimple project created to test Spring Data Elasticsearch in practice.
+
+## Table of contents
+* [Requirements](#requirements)
+* [Setup](#setup)
+* [Setup](#setup)
+* [Elasticsearch](#elasticsearch)
+* [Testing](#testing)
+* [Status](#status)
+* [Contact](#contact)
 
 ## Requirements
 * Java 11
 * Gradle 6.
 * Running Elasticsearch engine 7.6.2 (version must be compatible with Spring Data Elasticsearch). Set up the Elasticsearch engine's hostname in **application.yml** in the **elasticsearch.host** section (e.g. localhost:9200).
 
-##Set up
-### Set up Elasticsearch
+## Setup
+### Setup Elasticsearch
 1. Install Elasticsearch.
    You can follow this tutorial: https://www.baeldung.com/spring-data-elasticsearch-tutorial:
 ````
@@ -16,7 +26,7 @@ docker run -d --name es762 -p 9200:9200 -e "discovery.type=single-node" elastics
 ````
 docker run elasticsearch:7.6.2
 ````
-3. Check if it works:
+3. Check, if it works:
 ````
 http://localhost:9200/
 ````
@@ -31,13 +41,13 @@ elasticsearch:
   host: localhost:9200 
 ````
 6. One you run the app, it automatically creates an index in Elasticsearch. 
-   To check if the index is created, run:
+   To check, if the index is created, run:
 ````
 curl http://localhost:9200/user/_settings – displays index settings.
 curl http://localhost:9200/user/_mapping – displays index mappings.
 ````
 
-### Set up the app
+### Setup the app
 1 Build the project:
 ````
 ./gradlew clean build
@@ -46,9 +56,9 @@ curl http://localhost:9200/user/_mapping – displays index mappings.
 ````
 ./gradlew bootRun
 ````
-The application starts on port 8080.
+The application runs on port 8080.
 
-###Load test data
+### Load test data
 1. Set the "test" profile in **application.yml**:
 ````
 spring:
@@ -86,7 +96,7 @@ Testing endpoint **/api/search**
 Using Postman:
 - ensure that the Elasticsearch engine is up and running.
 - run the application.
-- create a new POST request http://localhost:8080/api/search
+- create a new POST request to: http://localhost:8080/api/search
 - set the headers:
     - Content-type: application/json,
 - Set body, e.g:
@@ -130,3 +140,9 @@ This will return both Jan Kowalski and Bożena Barszcz - there is a full-text se
 curl -XPOST -H "Content-type: application/json" -d '{"correspondenceAddresses":{ "street":"Marszałk","city":"Warszawa","postOffice":"Warszwa","country":"Polska"}
 }' 'http://localhost:8080/api/search'
 ````
+
+## Status
+Project is: _finished_
+
+## Contact
+Created by [Marzena Kacprowicz](http://zrobtowinternecie.pl/) - feel free to contact me!
