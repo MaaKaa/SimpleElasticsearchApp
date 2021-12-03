@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.marzenakaa.SimpleElasticsearchApp.document.User;
+import pl.marzenakaa.SimpleElasticsearchApp.error.ErrorResponse;
 import pl.marzenakaa.SimpleElasticsearchApp.model.SearchCriteria;
 import pl.marzenakaa.SimpleElasticsearchApp.service.SearchService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -28,7 +30,9 @@ public class SearchController {
         List<User> results = searchService.search(searchCriteria);
 
         if (results.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.of(Optional.of(ErrorResponse.builder()
+                    .httpStatus(HttpStatus.NOT_FOUND)
+                    .errorDescription("No record(s) found.").build()));
         }
         return ResponseEntity.ok(results);
     }
