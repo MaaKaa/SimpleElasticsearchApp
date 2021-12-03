@@ -40,7 +40,7 @@ public class UserService {
             userSearchHits.getSearchHits().forEach(p -> users.add(p.getContent()));
         }
 
-        log.info("Searching by User: {} result(s) found.", users.size());
+        log.info("{} result(s) found.", users.size());
         return users;
     }
 

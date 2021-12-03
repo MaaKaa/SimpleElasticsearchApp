@@ -16,16 +16,15 @@ docker run -d --name es762 -p 9200:9200 -e "discovery.type=single-node" elastics
 ````
 docker run elasticsearch:7.6.2
 ````
-3. Configure Elasticsearch:
+3. Check if it works:
+````
+http://localhost:9200/
+````
+4. Configure Elasticsearch:
 ````
 curl -XPUT -H "Content-Type: application/json" http://localhost:9200/_cluster/settings -d '{ "transient": { "cluster.routing.allocation.disk.threshold_enabled": false }'
 curl -XPUT -H "Content-Type: application/json" http://localhost:9200/_all/_settings -d '{ "index.blocks.read_only_allow_delete": null}'
 ````
-4. Check if it works:
-````
-http://localhost:9200/
-````
-
 5. Add Elasticsearch host to **application.yml**:
 ````
 elasticsearch:
@@ -87,7 +86,7 @@ Testing endpoint **/api/search**
 Using Postman:
 - ensure that the Elasticsearch engine is up and running.
 - run the application.
-- create a new POST request http://localhost:9002/api/search
+- create a new POST request http://localhost:8080/api/search
 - set the headers:
     - Content-type: application/json,
 - Set body, e.g:

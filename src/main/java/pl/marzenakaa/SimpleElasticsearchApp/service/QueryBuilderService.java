@@ -24,7 +24,7 @@ import static org.elasticsearch.index.query.QueryBuilders.simpleQueryStringQuery
 public class QueryBuilderService {
 
     private static final String NAME = "name";
-    private static final String SURNAME = "lastName";
+    private static final String SURNAME = "surname";
     private static final String ADDRESSES = "addresses";
     private static final String STREET = "addresses.street";
     private static final String BUILDING_NUMBER = "addresses.buildingNumber";
