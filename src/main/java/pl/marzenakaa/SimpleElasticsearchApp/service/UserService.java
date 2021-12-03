@@ -8,7 +8,10 @@ import org.springframework.data.elasticsearch.core.mapping.IndexCoordinates;
 import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.stereotype.Service;
 import pl.marzenakaa.SimpleElasticsearchApp.document.User;
+import pl.marzenakaa.SimpleElasticsearchApp.model.Address;
+import pl.marzenakaa.SimpleElasticsearchApp.model.AddressType;
 import pl.marzenakaa.SimpleElasticsearchApp.model.SearchCriteria;
+import pl.marzenakaa.SimpleElasticsearchApp.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
 
+    private final UserRepository userRepository;
     private final ElasticsearchRestTemplate elasticsearchRestTemplate;
     private final QueryBuilderService queryBuilderService;
 
@@ -40,4 +44,53 @@ public class UserService {
         return users;
     }
 
+    /**
+     * Method adds some test data do Elasticsearch.
+     */
+    public void loadTestData() {
+        Address correspondence = Address.builder()
+                .addressType(AddressType.CORRESPONDENCE.name())
+                .street("Marszałkowska")
+                .buildingNumber("1")
+                .flatNumber("1")
+                .city("Warszawa")
+                .postalCode("00-001")
+                .postOffice("Warszwa")
+                .country("Polska")
+                .build();
+        Address headquarters = Address.builder()
+                .addressType(AddressType.HEADQUARTERS.name())
+                .street("Karolkowa")
+                .buildingNumber("20")
+                .flatNumber("44")
+                .city("Warszawa")
+                .postalCode("00-202")
+                .postOffice("Gózd")
+                .country("Polska")
+                .build();
+        User activeUser1 = User.builder()
+                .name("Jan")
+                .surname("Kowalski")
+                .status("1")
+                .addresses(List.of(correspondence))
+                .build();
+        User activeUser2 = User.builder()
+                .name("Grażyna")
+                .surname("Kowalska")
+                .status("1")
+                .addresses(List.of(headquarters))
+                .build();
+        User inactiveUser1 = User.builder()
+                .name("Janusz")
+                .surname("Nowak")
+                .status("0")
+                .addresses(null)
+                .build();
+
+        userRepository.saveAll(List.of(activeUser1, inactiveUser1, activeUser2));
+    }
+
+    public void deleteTestData() {
+        userRepository.deleteAll();
+    }
 }

@@ -1,11 +1,12 @@
 buildscript {
 	ext {
+		junitVersion = '4.12'
 		lombokVersion = '5.1.1'
 		mockitoCore = '3.3.3'
 		mockitoJunitJupiter = '3.3.3'
 		springDependencyManagementVersion = '1.0.9.RELEASE'
 		springBootVersion = '2.5.5'
-		junitVersion = '4.12'
+		swaggerVersion = '2.9.2'
 	}
 }
 
@@ -37,6 +38,10 @@ dependencies {
 	//lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	//swagger
+	implementation "io.springfox:springfox-swagger2:${swaggerVersion}"
+	implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
 
 	//test
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {

@@ -17,7 +17,6 @@ import java.time.Duration;
 @EnableElasticsearchRepositories(basePackages = "pl.marzenakaa.SimpleElasticsearchApp.repository")
 public class ElasticsearchConfig extends AbstractElasticsearchConfiguration {
 
-
     @Value("${elasticsearch.host}")
     private String[] host;
 
