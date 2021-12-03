@@ -1,0 +1,59 @@
+buildscript {
+	ext {
+		junitVersion = '4.12'
+		lombokVersion = '5.1.1'
+		mockitoCore = '3.3.3'
+		mockitoJunitJupiter = '3.3.3'
+		springDependencyManagementVersion = '1.0.9.RELEASE'
+		springBootVersion = '2.5.5'
+		swaggerVersion = '2.9.2'
+	}
+}
+
+plugins {
+	id 'org.springframework.boot' version "${springBootVersion}"
+	id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
+	id 'java'
+	id 'idea'
+	id "io.freefair.lombok" version "${lombokVersion}"
+}
+
+group = 'pl.marzenakaa'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	//spring
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	//elastisearch
+	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+
+	//lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	//swagger
+	implementation "io.springfox:springfox-swagger2:${swaggerVersion}"
+	implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
+
+	//test
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+		exclude group: 'junit', module: 'junit'
+	}
+
+	// mockito
+	testCompileOnly "org.mockito:mockito-core:${mockitoCore}"
+	testCompileOnly "org.mockito:mockito-junit-jupiter:${mockitoJunitJupiter}"
+}
+
+test {
+	useJUnitPlatform()
+}
