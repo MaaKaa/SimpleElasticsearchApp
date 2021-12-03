@@ -49,8 +49,6 @@ dependencies {
 		exclude group: 'junit', module: 'junit'
 	}
 
-	implementation "junit:junit:${junitVersion}"
-
 	// mockito
 	testCompileOnly "org.mockito:mockito-core:${mockitoCore}"
 	testCompileOnly "org.mockito:mockito-junit-jupiter:${mockitoJunitJupiter}"

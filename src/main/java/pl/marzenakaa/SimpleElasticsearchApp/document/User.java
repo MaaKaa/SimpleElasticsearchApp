@@ -36,6 +36,9 @@ public class User {
     @Field(type = Text, analyzer = "asciifolding_analyzer")
     private String surname;
 
+    @Field(type = Text, analyzer = "asciifolding_analyzer")
+    private String companyName;
+
     @Field(type = Text)
     private String status;
 

@@ -25,6 +25,7 @@ public class QueryBuilderService {
 
     private static final String NAME = "name";
     private static final String SURNAME = "surname";
+    private static final String COMPANY_NAME = "companyName";
     private static final String ADDRESSES = "addresses";
     private static final String STREET = "addresses.street";
     private static final String BUILDING_NUMBER = "addresses.buildingNumber";
@@ -57,6 +58,7 @@ public class QueryBuilderService {
     protected BoolQueryBuilder buildBoolQuery(SearchCriteria searchCriteria) {
         String name = searchCriteria.getName();
         String surname = searchCriteria.getSurname();
+        String companyName = searchCriteria.getCompanyName();
 
         Address correspondenceAddress = searchCriteria.getCorrespondenceAddresses();
         Address headquartersAddress = searchCriteria.getHeadquartersAddresses();
@@ -69,6 +71,10 @@ public class QueryBuilderService {
 
         if (surname != null) {
             boolQuery.must(createCustomMatchQuery(SURNAME, surname));
+        }
+
+        if (companyName != null) {
+            boolQuery.must(createCustomStringQuery(COMPANY_NAME, companyName));
         }
 
         if (correspondenceAddress != null) {
